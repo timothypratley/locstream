@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>locstreamS</title>
+</head>
+<body>
+    <div id="container"></div>
+    <pre id="incomming"></pre>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script src="Three.js"></script>
+    <script src="v1z.js"></script>
+    <script type="text/javascript">
+        var Key = {
+            _pressed: {},
+
+            LEFT: 37,
+            UP: 38,
+            RIGHT: 39,
+            DOWN: 40,
+
+            isDown: function (keyCode) {
+                return this._pressed[keyCode];
+            },
+
+            onKeydown: function (event) {
+                this._pressed[event.keyCode] = true;
+            },
+
+            onKeyup: function (event) {
+                delete this._pressed[event.keyCode];
+            }
+        };
+
+
+
+        /// The following comment gives you intellisense
+        /// <reference path="http://mrdoob.github.com/three.js/build/Three.js" />
+        var colour1 = Math.random() * 0xffffff;
+        var colour2 = Math.random() * 0xffffff;
+        var colour3 = Math.random() * 0xffffff;
+        var colour4 = Math.random() * 0xffffff;
+        var colour5 = Math.random() * 0xffffff;
+
+        var mouseX = 0, mouseY = 0;
+        var windowHalfX = 200;
+        var windowHalfY = 200;
+
+    var gr1dSpaceScene1 = new V1Z.Gr1dScene(
+        container, // where to render to
+        400, // height - can't automatically detect from the div yet...
+        400, // width - can't automatically detect from the div yet...
+        0,   // the central node's stack 
+        0,   // the central node's column
+        0,   // the central node's row
+        true // auto animate       
+        );
+
+    gr1dSpaceScene1.addNode(0, 0, 0);
+
+    projector = new THREE.Projector();
+    document.addEventListener('mousedown', onDocumentMouseDown, false);
+    document.addEventListener('mousemove', onDocumentMouseMove, false);
+    document.addEventListener('keyup', function (event) { Key.onKeyup(event); }, false);
+    document.addEventListener('keydown', function (event) { Key.onKeydown(event); }, false);
+
+    var target = new THREE.Vector3(12, 12, 12);
+
+    // now, render it at 25FPS:
+    setInterval(render, 1000 / 25);
+    function render() {
+        var camera = gr1dSpaceScene1.Camera;
+        camera.position.x += (mouseX - camera.position.x) * .001;
+        camera.position.y += (-mouseY - camera.position.y) * .001;
+        gr1dSpaceScene1.moveToward(target);
+
+        if (Key.isDown(Key.UP)) camera.position.x += 2;
+        if (Key.isDown(Key.LEFT)) camera.position.y -= 2;
+        if (Key.isDown(Key.DOWN)) camera.position.x -= 2;
+        if (Key.isDown(Key.RIGHT)) camera.position.y += 2;
+
+        gr1dSpaceScene1.render();
+    }
+
+    function onDocumentMouseDown(event) {
+        var camera = gr1dSpaceScene1.Camera;
+        event.preventDefault();
+        var vector = new THREE.Vector3((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
+        projector.unprojectVector(vector, camera);
+        var ray = new THREE.Ray(camera.position, vector.subSelf(camera.position).normalize());
+        var intersects = ray.intersectScene(gr1dSpaceScene1.Scene);
+        if (intersects.length > 0) {
+            target = intersects[0].point.multiplyScalar(100);
+        }
+    }
+
+    function onDocumentMouseMove(event) {
+        mouseX = (event.clientX - windowHalfX);
+        mouseY = (event.clientY - windowHalfY);
+    }
+
+    function onDocumentKeyDown(event) {
+        
+    }
+
+    var scene = gr1dSpaceScene1.Scene;
+
+
+
+// zany websockets!
+        var ws;
+        var start = function () {
+            var inc = document.getElementById('incomming');
+            inc.innerHTML += "connecting to server ..<br/>";
+
+            // create a new websocket and connect
+            ws = new WebSocket('ws://localhost:8181/consoleappsample');
+
+            // when data is comming from the server, this metod is called
+            ws.onmessage = function (evt) {
+                inc.innerHTML += evt.data + '<br/>';
+                var myObject = JSON.parse(evt.data);
+
+                // so, we now have a Gr1dScene, lets add nodes!
+                //alert("w00t " + myObject);
+                gr1dSpaceScene1.addNode(myObject[0], myObject[1], myObject[2]);
+            };
+
+            // when the connection is established, this method is called
+            ws.onopen = function () {
+                inc.innerHTML += '.. connection open<br/>';
+            };
+
+            // when the connection is closed, this method is called
+            ws.onclose = function () {
+                inc.innerHTML += '.. connection closed<br/>';
+            }
+        }
+        window.onload = start;
+
+        var t;
+        function timedCount() {
+            t = setTimeout("timedCount()", 3000);
+            ws.send(JSON.stringify(gr1dSpaceScene1.Camera.position));
+        }
+
+        setTimeout("timedCount()", 3000);
+    </script>
+</body>
+</html>
