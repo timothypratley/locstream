@@ -5,6 +5,7 @@ using System.Text;
 
 namespace WorldLogic {
     class Rules {
-        public void Update();
+        public void Update() {
+        }
     }
 }

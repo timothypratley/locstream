@@ -3,18 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SpatialModel;
+using System.Collections.Concurrent;
+using WorldHistory;
 
 namespace WorldLogic {
     public class Ticker {
-        Recorded<WorldModel> recordedWorld = new Recorded<WorldModel>(WorldModel.Empty);
+        History worldHistory;
+        object worldLock = new object();
+
         Intelligence intelligence = new Intelligence();
-        MessageProcessor messageProcessor = new MessageProcessor();
         Rules rules = new Rules();
+        BlockingCollection<CommandPending> pendingCommands;
+        BlockingCollection<CommandResult> commandResults;
+
+        public Ticker(BlockingCollection<CommandPending> pending, BlockingCollection<CommandResult> results, History history) {
+            pendingCommands = pending;
+            commandResults = results;
+            worldHistory = history;
+        }
 
         public void Update() {
-            intelligence.Update();
-            messageProcessor.CheckAndProcessMessage();
-            rules.Update();
+            lock (worldLock) {
+                intelligence.Update();
+                rules.Update();
+            }
+        }
+
+        public void ProcessCommands() {
+            while (!pendingCommands.IsCompleted) {
+                var pending = pendingCommands.Take();
+                lock (worldLock) {
+                    string errorMessage;
+                    var eventx = worldHistory.Head.CheckAndProcessMessage(pending.User, pending.Command, out errorMessage);
+                    if (eventx != null && errorMessage == null)
+                        worldHistory.ApplyEvent(eventx);
+                    commandResults.TryAdd(new CommandResult(pending.Id, errorMessage, eventx));
+                }
+            }
         }
     }
 }

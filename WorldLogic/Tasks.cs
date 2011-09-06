@@ -5,6 +5,8 @@ using System.Text;
 
 namespace WorldLogic {
     class Tasks {
-        public void Update();
+        public void Update() {
+
+        }
     }
 }

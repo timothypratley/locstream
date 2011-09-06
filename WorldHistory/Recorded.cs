@@ -1,6 +1,6 @@
 ﻿using Microsoft.FSharp.Collections;
 
-namespace SpatialModel
+namespace WorldHistory
 {
     /// <summary>
     /// Objects stored in a Recorded should be immutable to ensure they are not modified externally,

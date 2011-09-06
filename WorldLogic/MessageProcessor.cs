@@ -4,82 +4,77 @@ using System.Linq;
 using System.Text;
 using log4net;
 using SpatialModel;
+using System.Diagnostics.Contracts;
+using System.Windows.Media.Media3D;
 
 namespace WorldLogic {
-    public class MessageProcessor {
-        public WorldModel World { get; private set; }
+    public class Login {
+        public string Username;
+        public string Password;
+    }
 
-        readonly ILog _log = LogManager.GetLogger(typeof(MessageProcessor));
-
-        public MessageProcessor(WorldModel world) {
-            World = world;
-        }
-
-        public void CheckAndProcessMessage(User user, dynamic message) {
-            //TODO: why don't these work?
-            //Contract.Requires<ArgumentNullException>(client != null);
+    public static class MessageProcessor {
+        static readonly ILog _log = LogManager.GetLogger(typeof(MessageProcessor));
+        static WorldModel _world;
+        static User _user;
+        static string _errorMessage;
+        public static object CheckAndProcessMessage(this WorldModel world, User user, dynamic message, out string errorMessage) {
+            // fark why don't contracts work omg
             //Contract.Requires<ArgumentNullException>(message != null);
 
+            // world and user are set as context so that process message doesn't need to pass them for every call
+            _world = world;
+            _user = user;
+
+            errorMessage = null;
+
+            /*
             // new connection... only allow login);
             if (!user.Authenticated && !(message is Login)) {
-                _log.Warn("Non-login message " + message.GetType() + " from " + user.RemoteEndPoint);
-                return;
+                errorMessage = "Non-login message " + message.GetType();
+                return null;
             }
 
             if (user.Avatar == null
-                && !(message is PossessMobile
-                     || message is RequestPossessable
-                     || message is Logout
-                     || message is Login)) {
-                _log.Warn("ERROR: Non-posses message " + message.GetType() + " from " + user.RemoteEndPoint);
-                return;
+                && !(message is Login)) {
+                errorMessage = "ERROR: Non-posses message " + message.GetType();
+                return null;
             }
+            */
 
             try {
-                ProcessMessage(user, message);
+                var result = ProcessMessage(message);
                 _log.Debug("Processed message " + message);
-            } catch {
-                _log.Warn("Unable to process message " + message);
+                return result;
+            } catch (Exception exception) {
+                _log.Warn("Unable to process message " + message, exception);
+                errorMessage = exception.Message;
             }
+
+            return null;
         }
 
-        void ProcessMessage(User user, Login loginMessage) {
-            if (World.UserLookup(loginMessage.Username, loginMessage.Password)) {
-                // login succeeded, check there is not an existing connection for this player
-                ClientConnection current;
-                if (World.Users.TryGetValue(loginMessage.Username, out current))
-                    current.Close();
-
-                _log.Info("User " + loginMessage.Username + " logged in");
-                user.AuthenticatedUsername = loginMessage.Username;
-                World.Users.Add(loginMessage.Username, user);
-            } else {
-                _log.Info("Login failed for username '" + loginMessage.Username + "'");
-                user.Close();
-            }
+        static object ProcessMessage(object message) {
+            _errorMessage = "Unknown message " + message;
+            return null;
         }
 
-        public Tuple<int, string>[] GetPossessable(string username) {
-            DataRow[] dr = Global.Schema.Player.Select("Email = '" + username + "'");
-            Schema.PlayerRow pr = Global.Schema.Player.FindByPlayerID((int)dr[0][0]);
-            Schema.MobilePossesableByPlayerRow[] mpbpr = pr.GetMobilePossesableByPlayerRows();
-            return mpbpr.Select(mpr => new Tuple<int, string>(
-                mpr.ObjectInstanceID, mpr.ObjectInstanceRow.TemplateObjectRow.TemplateObjectName)).ToArray();
+        static object ProcessMessage(Login loginMessage) {
+            _log.Info("User " + loginMessage.Username + " logged in");
+            _user.Name = loginMessage.Username;
+            return null;
         }
 
-        void ProcessMessage(User user, RequestPossessable message) {
-            //Strive.Data.MultiverseFactory.refreshMultiverseForPlayer(Global.modelSchema, client.PlayerID);
-            user.CanPossess(GetPossessable(user.AuthenticatedUsername));
+        static object ProcessMessage(SpatialEntity entity) {
+            return null;
         }
 
-        void ProcessMessage(User user, Logout message) {
-            if (user.Avatar != null) {
-                // remove from world.
-                // TODO: do I want to remove the avatar?
-                // World.Remove((EntityModel)client.Avatar);
-            }
-            _log.Info("Logged out '" + user.AuthenticatedUsername + "'.");
-            user.Close();
+        static object ProcessMessage(Commands.Update update) {
+            return new SpatialEntity() {
+                Name = "foo",
+                Model = "bar",
+                Position = new Vector3D(update.x, update.y, update.z)
+            };
         }
     }
 }
