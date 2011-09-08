@@ -29,7 +29,7 @@ namespace server {
 
                     // send the current world
                     // TODO: race condition if event fires before world is sent
-                    foreach (var entity in history.Head.Entities) {
+                    foreach (var entity in history.Head.Entities.Select(x => x.Value)) {
                         Send(socket, entity);
                     }
                 };

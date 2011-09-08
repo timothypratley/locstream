@@ -5,6 +5,7 @@ using System.Text;
 using Events;
 using SpatialModel;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 
 namespace WorldHistory {
     public class History {

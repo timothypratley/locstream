@@ -53,10 +53,10 @@ var V1Z = function () {
             }
 
             this.moveToward = function(target) {
-//                this.Camera.target.x = target.x;
-  //              this.Camera.target.y = target.y;
-    //            this.Camera.target.z = target.z;
-      //          this.Camera.position = this.Camera.position.addSelf(target.subSelf(this.Camera.position).divideScalar(30));
+                this.Camera.target.x = target.x;
+                this.Camera.target.y = target.y;
+                this.Camera.target.z = target.z;
+                this.Camera.position = this.Camera.position.addSelf(target.subSelf(this.Camera.position).divideScalar(30));
             }
 
             this.initialise = function () {
