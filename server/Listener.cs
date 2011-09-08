@@ -9,6 +9,7 @@ using System.Collections.Concurrent;
 using Commands;
 using WorldHistory;
 using WorldLogic;
+using System.Diagnostics.Contracts;
 
 namespace server {
     public class Listener {
@@ -66,6 +67,12 @@ namespace server {
 
         public void Send(IWebSocketConnection socket, object message) {
             socket.Send(JsonConvert.SerializeObject(message));
+        }
+
+        [ContractInvariantMethod]
+        void Invariants()
+        {
+            Contract.Invariant(allSockets != null);
         }
     }
 }

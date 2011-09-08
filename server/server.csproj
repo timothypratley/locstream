@@ -62,35 +62,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BookSleeve">
-      <HintPath>..\packages\BookSleeve.1.1.0.1\lib\BookSleeve.dll</HintPath>
-    </Reference>
-    <Reference Include="clrzmq">
-      <HintPath>..\packages\clrzmq2.2.0.10.2010112000\lib\clrzmq.dll</HintPath>
+      <HintPath>..\lib\BookSleeve.dll</HintPath>
     </Reference>
     <Reference Include="Fleck">
       <HintPath>..\lib\Fleck.dll</HintPath>
     </Reference>
     <Reference Include="FSharp.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="QuickGraph">
-      <HintPath>..\packages\QuickGraph.3.3.51106.0\lib\net35\QuickGraph.dll</HintPath>
-    </Reference>
-    <Reference Include="QuickGraph.Contracts">
-      <HintPath>..\packages\QuickGraph.3.3.51106.0\lib\net35\CodeContracts\QuickGraph.Contracts.dll</HintPath>
-    </Reference>
-    <Reference Include="QuickGraph.Data">
-      <HintPath>..\packages\QuickGraph.3.3.51106.0\lib\net35\QuickGraph.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="QuickGraph.Data.Contracts">
-      <HintPath>..\packages\QuickGraph.3.3.51106.0\lib\net35\CodeContracts\QuickGraph.Data.Contracts.dll</HintPath>
-    </Reference>
-    <Reference Include="QuickGraph.Graphviz">
-      <HintPath>..\packages\QuickGraph.3.3.51106.0\lib\net35\QuickGraph.Graphviz.dll</HintPath>
-    </Reference>
-    <Reference Include="QuickGraph.Graphviz.Contracts">
-      <HintPath>..\packages\QuickGraph.3.3.51106.0\lib\net35\CodeContracts\QuickGraph.Graphviz.Contracts.dll</HintPath>
+      <HintPath>..\lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -105,7 +84,6 @@
     <Compile Include="Listener.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="spam.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -8,9 +8,17 @@ namespace SpatialModel
 {
     public class SpatialEntity
     {
-        public string Name;
-        public string Model;
-        public Vector3D Position;
-        public Quaternion Rotation;
+        public string Name { get; private set; }
+        public string Model { get; private set; }
+        public Vector3D Position { get; private set; }
+        public Quaternion Rotation { get; private set; }
+
+        public SpatialEntity(string name, string model, Vector3D position, Quaternion rotation)
+        {
+            Name = name;
+            Model = model;
+            Position = position;
+            Rotation = rotation;
+        }
     }
 }

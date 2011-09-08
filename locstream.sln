@@ -13,7 +13,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Events", "Events\Events.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldHistory", "WorldHistory\WorldHistory.csproj", "{05CF665C-CAE2-4880-895D-549BF3360B07}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldHistoryTests", "WorldHistoryTests\WorldHistoryTests.csproj", "{17883640-96CE-4880-890A-C3FF2D6DCFCD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{06AD60E2-E61B-47EB-AF5D-7DCE05C21FF8}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		locstream.vsmdi = locstream.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = locstream.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -83,6 +95,16 @@ Global
 		{05CF665C-CAE2-4880-895D-549BF3360B07}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{05CF665C-CAE2-4880-895D-549BF3360B07}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{05CF665C-CAE2-4880-895D-549BF3360B07}.Release|x86.ActiveCfg = Release|Any CPU
+		{17883640-96CE-4880-890A-C3FF2D6DCFCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17883640-96CE-4880-890A-C3FF2D6DCFCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17883640-96CE-4880-890A-C3FF2D6DCFCD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{17883640-96CE-4880-890A-C3FF2D6DCFCD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{17883640-96CE-4880-890A-C3FF2D6DCFCD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{17883640-96CE-4880-890A-C3FF2D6DCFCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17883640-96CE-4880-890A-C3FF2D6DCFCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17883640-96CE-4880-890A-C3FF2D6DCFCD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{17883640-96CE-4880-890A-C3FF2D6DCFCD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{17883640-96CE-4880-890A-C3FF2D6DCFCD}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

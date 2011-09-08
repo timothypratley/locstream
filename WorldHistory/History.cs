@@ -27,16 +27,16 @@ namespace WorldHistory {
             }
         }
 
-        public void Apply(object eventx) {
+        void Apply(object eventx) {
             Debug.Assert(false, "Unknown event " + eventx);
         }
 
-        public void Apply(Update update) {
+        void Apply(Update update) {
             
         }
 
-        public void Apply(SpatialEntity entity) {
-            recordedWorld.Head.Add(entity);
+        void Apply(SpatialEntity entity) {
+            recordedWorld.Head = recordedWorld.Head.Add(entity);
         }
     }
 }
