@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerTests", "ServerTests\ServerTests.csproj", "{EDE49B24-18FF-4CD1-B72B-D9F802C8B191}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = locstream.vsmdi
@@ -105,6 +107,16 @@ Global
 		{17883640-96CE-4880-890A-C3FF2D6DCFCD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{17883640-96CE-4880-890A-C3FF2D6DCFCD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{17883640-96CE-4880-890A-C3FF2D6DCFCD}.Release|x86.ActiveCfg = Release|Any CPU
+		{EDE49B24-18FF-4CD1-B72B-D9F802C8B191}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDE49B24-18FF-4CD1-B72B-D9F802C8B191}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDE49B24-18FF-4CD1-B72B-D9F802C8B191}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EDE49B24-18FF-4CD1-B72B-D9F802C8B191}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EDE49B24-18FF-4CD1-B72B-D9F802C8B191}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EDE49B24-18FF-4CD1-B72B-D9F802C8B191}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDE49B24-18FF-4CD1-B72B-D9F802C8B191}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDE49B24-18FF-4CD1-B72B-D9F802C8B191}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EDE49B24-18FF-4CD1-B72B-D9F802C8B191}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EDE49B24-18FF-4CD1-B72B-D9F802C8B191}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

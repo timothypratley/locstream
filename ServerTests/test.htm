@@ -1,0 +1,15 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body>
+        <pre id="incomming"></pre>
+
+    	<script>
+	        var inc = document.getElementById('incomming');
+    	    var myObject = JSON.parse('"1.2,-1,3"');
+	        inc.innerHTML += typeof(myObject) + ':' + myObject.toString() + '<br/>';
+        </script>
+	</body>
+</html>
