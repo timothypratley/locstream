@@ -90,7 +90,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="test.htm" />
     <Content Include="ls.htm" />
   </ItemGroup>
   <ItemGroup>
