@@ -71,6 +71,7 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -96,6 +97,10 @@
     <ProjectReference Include="..\Commands\Commands.csproj">
       <Project>{C6E725CD-19F0-49E9-AB3E-92D0E9B5D5EA}</Project>
       <Name>Commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Events\Events.csproj">
+      <Project>{43DACA66-CF12-4CD2-8D32-82BAD760F8D1}</Project>
+      <Name>Events</Name>
     </ProjectReference>
     <ProjectReference Include="..\SpatialModel\SpatialModel.csproj">
       <Project>{7D025C24-90B4-401E-98DF-9A764E765A59}</Project>

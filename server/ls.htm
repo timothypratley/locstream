@@ -5,19 +5,21 @@
 </head>
 <body>
     <div id="container"></div>
+    <pre id="info"></pre>
     <pre id="incomming"></pre>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
     <script src="Three.js"></script>
     <script src="v1z.js"></script>
-    <script type="text/javascript">
+    <script>
+        var myName = 'player' + Math.floor(Math.random()*1000);
         var Key = {
             _pressed: {},
 
-            LEFT: 37,
-            UP: 38,
-            RIGHT: 39,
-            DOWN: 40,
+            LEFT: 65,
+            UP: 87,
+            RIGHT: 68,
+            DOWN: 83,
 
             isDown: function (keyCode) {
                 return this._pressed[keyCode];
@@ -57,9 +59,9 @@
         );
 
     var isUserInteracting = false,
-    		lon = 0, onMouseDownLon = 0,
-			lat = 0, onMouseDownLat = 0,
-			phi = 0, theta = 0;
+            lon = 0, onMouseDownLon = 0,
+            lat = 0, onMouseDownLat = 0,
+            phi = 0, theta = 0;
 
 
     gr1dSpaceScene1.addNode(0, 0, 0);
@@ -68,70 +70,70 @@
     document.addEventListener('keyup', function (event) { Key.onKeyup(event); }, false);
     document.addEventListener('keydown', function (event) { Key.onKeydown(event); }, false);
 
-    			document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-				document.addEventListener( 'mouseup', onDocumentMouseUp, false );
-				document.addEventListener( 'mousewheel', onDocumentMouseWheel, false );
-				document.addEventListener( 'DOMMouseScroll', onDocumentMouseWheel, false);
+                document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+                document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+                document.addEventListener( 'mouseup', onDocumentMouseUp, false );
+                document.addEventListener( 'mousewheel', onDocumentMouseWheel, false );
+                document.addEventListener( 'DOMMouseScroll', onDocumentMouseWheel, false);
  
-			
+            
  
-			function onDocumentMouseDown( event ) {
+            function onDocumentMouseDown( event ) {
  
-				event.preventDefault();
+                event.preventDefault();
  
-				isUserInteracting = true;
+                isUserInteracting = true;
  
-				onPointerDownPointerX = event.clientX;
-				onPointerDownPointerY = event.clientY;
+                onPointerDownPointerX = event.clientX;
+                onPointerDownPointerY = event.clientY;
  
-				onPointerDownLon = lon;
-				onPointerDownLat = lat;
+                onPointerDownLon = lon;
+                onPointerDownLat = lat;
  
-			}
+            }
  
-			function onDocumentMouseMove( event ) {
+            function onDocumentMouseMove( event ) {
  
-				if ( isUserInteracting ) {
+                if ( isUserInteracting ) {
  
-					lon = ( onPointerDownPointerX - event.clientX ) * 0.1 + onPointerDownLon;
-					lat = ( event.clientY - onPointerDownPointerY ) * 0.1 + onPointerDownLat;
+                    lon = ( onPointerDownPointerX - event.clientX ) * 0.3 + onPointerDownLon;
+                    lat = ( event.clientY - onPointerDownPointerY ) * 0.3 + onPointerDownLat;
  
-				}
-			}
+                }
+            }
  
-			function onDocumentMouseUp( event ) {
+            function onDocumentMouseUp( event ) {
  
-				isUserInteracting = false;
+                isUserInteracting = false;
  
-			}
+            }
  
-			function onDocumentMouseWheel( event ) {
+            function onDocumentMouseWheel( event ) {
  
-				// WebKit
+                // WebKit
  
-				if ( event.wheelDeltaY ) {
+                if ( event.wheelDeltaY ) {
  
-					fov -= event.wheelDeltaY * 0.05;
+                    fov -= event.wheelDeltaY * 0.05;
  
-				// Opera / Explorer 9
+                // Opera / Explorer 9
  
-				} else if ( event.wheelDelta ) {
+                } else if ( event.wheelDelta ) {
  
-					fov -= event.wheelDelta * 0.05;
+                    fov -= event.wheelDelta * 0.05;
  
-				// Firefox
+                // Firefox
  
-				} else if ( event.detail ) {
+                } else if ( event.detail ) {
  
-					fov += event.detail * 1.0;
+                    fov += event.detail * 1.0;
  
-				}
+                }
  
-				camera.projectionMatrix = THREE.Matrix4.makePerspective( fov, window.innerWidth / window.innerHeight, 1, 1100 );
-				render();
+                camera.projectionMatrix = THREE.Matrix4.makePerspective( fov, window.innerWidth / window.innerHeight, 1, 1100 );
+                render();
  
-			}
+            }
  
     var target = new THREE.Vector3(12, 12, 12);
 
@@ -143,22 +145,30 @@
         //camera.position.y += (-mouseY - camera.position.y) * .001;
         //gr1dSpaceScene1.moveToward(target);
 
-        if (Key.isDown(Key.UP)) camera.position.x += 2;
-        if (Key.isDown(Key.LEFT)) camera.position.y -= 2;
-        if (Key.isDown(Key.DOWN)) camera.position.x -= 2;
-        if (Key.isDown(Key.RIGHT)) camera.position.y += 2;
 
 
-				lat = Math.max( - 85, Math.min( 85, lat ) );
-				phi = ( 90 - lat ) * Math.PI / 180;
-				theta = lon * Math.PI / 180;
+                lat = Math.max( - 85, Math.min( 85, lat ) );
+                phi = ( 90 - lat ) * Math.PI / 180;
+                theta = lon * Math.PI / 180;
  
-				camera.target.position.x = 500 * Math.sin( phi ) * Math.cos( theta );
-				camera.target.position.y = 500 * Math.cos( phi );
-				camera.target.position.z = 500 * Math.sin( phi ) * Math.sin( theta );
+                camera.target.position.x = 500 * Math.sin( phi ) * Math.cos( theta );
+                camera.target.position.y = 500 * Math.cos( phi );
+                camera.target.position.z = 500 * Math.sin( phi ) * Math.sin( theta );
 
+                var x = 0;
+                var z = 0;
+                if (Key.isDown(Key.UP)) x += 1;
+                if (Key.isDown(Key.LEFT)) z -= 1;
+                if (Key.isDown(Key.DOWN)) x -= 1;
+                if (Key.isDown(Key.RIGHT)) z += 1;
 
-        gr1dSpaceScene1.render();
+                camera.position.x += x * Math.cos(theta) - z * Math.sin(theta);
+                camera.position.z += x * Math.sin(theta) + z * Math.cos(theta);
+
+                gr1dSpaceScene1.render();
+
+                var info = document.getElementById('info');
+                info.innerHTML = 'Position: ' + camera.position.x + ',' + camera.position.y + ',' + camera.position.z;
     }
 
 //    function onDocumentMouseDown(event) {
@@ -202,7 +212,7 @@
 
                 // so, we now have a Gr1dScene, lets add nodes!
                 //alert("w00t " + myObject);
-                gr1dSpaceScene1.addNode(myObject.x, myObject.y, myObject.z);
+                gr1dSpaceScene1.addObject(new V1Z.Player(gr1dSpaceScene1, myObject.name, myObject.x, myObject.y, myObject.z));
             };
 
             // when the connection is established, this method is called
@@ -219,11 +229,13 @@
 
         var t;
         function timedCount() {
-            t = setTimeout("timedCount()", 3000);
-            ws.send(JSON.stringify(gr1dSpaceScene1.Camera.position));
+            t = setTimeout("timedCount()", 200);
+            var me = gr1dSpaceScene1.Camera.position;
+            me.name = myName;
+            ws.send(JSON.stringify(me));
         }
 
-        setTimeout("timedCount()", 3000);
+        setTimeout("timedCount()", 200);
     </script>
 </body>
 </html>

@@ -27,6 +27,13 @@ var V1Z = function () {
             this.DomContainer.innerHeight = height;
             this.DomContainer.innerWidth = width;
             this.Camera = new THREE.Camera(70, height / width, 1, 50);
+            this.Camera.far = 20000;
+            //            this.Camera = new THREE.FirstPersonCamera({
+
+            //                fov: 60, aspect: height / width, near: 1, far: 20000,
+            //                movementSpeed: 1000, lookSpeed: 0.1, noFly: false, lookVertical: true
+
+            //            });
             this.Scene = new THREE.Scene();
             this.Renderer = null;
             this.IsAnimated = autoAnimate;
@@ -52,7 +59,7 @@ var V1Z = function () {
                 this.Colour5 = colour5;
             }
 
-            this.moveToward = function(target) {
+            this.moveToward = function (target) {
                 this.Camera.target.x = target.x;
                 this.Camera.target.y = target.y;
                 this.Camera.target.z = target.z;
@@ -168,6 +175,34 @@ var V1Z = function () {
             this.initialiseObject = function () { };
         },
 
+        Player: function (scene, player, x, y, z) {
+            this.inheritsFrom = V1Z.Gr1dObject;
+            this.makeKey = function (player) {
+                return 'Player_' + player;
+            }
+            this.inheritsFrom(scene, this.makeKey(player));
+
+            this.initialiseObject = function () {
+                var materials = [];
+                for (var i = 0; i < 6; i++) {
+                    materials.push([new THREE.MeshBasicMaterial({ color: Math.random() * 0xffffff })]);
+                }
+
+                var cube = new THREE.Mesh(new THREE.Cube(1, 1, 1, 1, 1, 1, materials), new THREE.MeshFaceMaterial());
+                    cube.position.x = x;
+                    cube.position.y = y;
+                    cube.position.z = z;
+
+                cube.overdraw = true;
+                this.Mesh = cube;
+            };
+
+            this.animate = function (pacemaker) {
+                this.Mesh.rotation.x = Math.cos(pacemaker / 50) * 5;
+                this.Mesh.rotation.z = Math.sin(pacemaker / 50) * 5;
+            };
+        },
+
         Agent: function (scene, node, playerClassName, player, agentClassName, level, slot, stackMax, stackDeficit) {
             this.inheritsFrom = V1Z.Gr1dObject;
             this.makeKey = function (player, agentClassName, level, slot) {
@@ -261,9 +296,9 @@ var V1Z = function () {
                 // node that should be rendered at 0,0,0
                 // TODO: following logic is incorrect and needs fixing!!!
                 // Essentially, we want these nodes to have their position.x, .y and .z in a tetrahedral mesh
-                nodeX = (layer - focusLayer) * (2 * (1 / Math.sqrt(3)));
-                nodeY = (row - focusRow);
-                nodeZ = (column - focusColumn) * Math.sqrt(2 / 3);
+                nodeX = (layer);
+                nodeY = (row);
+                nodeZ = (column);
 
                 // this chooses an opacity based on SceneColour1, lower opacity the higher the colour intensity
                 // generally relies on their being a background behind the render target so may be very opaque on white
@@ -309,6 +344,18 @@ var V1Z = function () {
                 this.addObject(node);
                 return node;
             };
+
+            this.addPlayer = function (player, x, y, z) {
+                var agent = new V1Z.Agent(this.Scene, this, playerClassName, player, agentClassName, level, slot, stackMax, stackDeficit);
+
+                // TODO: spread them out as more are added
+                // We want agents to automatically spread out like they are repelled
+                this.Agents[agent.Key] = agent;
+
+                this.Scene.addObject(agent);
+                return agent;
+            };
+
 
             this.fillNodes = function (radius) {
                 // forward:

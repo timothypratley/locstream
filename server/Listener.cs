@@ -61,12 +61,20 @@ namespace server {
 
         public void Broadcast(object message) {
             foreach(var socket in allSockets.ToList()) {
-                socket.Send(JsonConvert.SerializeObject(message));
+                socket.Send(Serialize(message));
             }
         }
 
         public void Send(IWebSocketConnection socket, object message) {
-            socket.Send(JsonConvert.SerializeObject(message));
+            socket.Send(Serialize(message));
+        }
+
+        public static string Serialize(object message) {
+            if (message is SpatialEntity) {
+                var se = (SpatialEntity)message;
+                message = new Events.Update() { name = se.Name, x = (float)se.Position.X, y = (float)se.Position.Y, z = (float)se.Position.Z };
+            }
+            return JsonConvert.SerializeObject(message);
         }
 
         [ContractInvariantMethod]
