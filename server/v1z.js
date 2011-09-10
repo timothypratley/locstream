@@ -189,9 +189,9 @@ var V1Z = function () {
                 }
 
                 var cube = new THREE.Mesh(new THREE.Cube(1, 1, 1, 1, 1, 1, materials), new THREE.MeshFaceMaterial());
-                    cube.position.x = x;
-                    cube.position.y = y;
-                    cube.position.z = z;
+                cube.position.x = x;
+                cube.position.y = y;
+                cube.position.z = z;
 
                 cube.overdraw = true;
                 this.Mesh = cube;
@@ -344,16 +344,23 @@ var V1Z = function () {
                 this.addObject(node);
                 return node;
             };
+            this.Players = new Object();
 
-            this.addPlayer = function (player, x, y, z) {
-                var agent = new V1Z.Agent(this.Scene, this, playerClassName, player, agentClassName, level, slot, stackMax, stackDeficit);
+            this.addPlayer = function (name, x, y, z) {
+                var p = this.Players['Player_' + name];
+                if (p) {
+                    p.Mesh.position.x = x; p.Mesh.position.y = y; p.Mesh.position.z = z;
+                    return p;
+                }
+
+                p = new V1Z.Player(this.scene, name, x, y, z);
 
                 // TODO: spread them out as more are added
                 // We want agents to automatically spread out like they are repelled
-                this.Agents[agent.Key] = agent;
+                this.Players[p.Key] = p;
 
-                this.Scene.addObject(agent);
-                return agent;
+                this.addObject(p);
+                return p;
             };
 
 

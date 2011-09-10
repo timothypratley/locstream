@@ -4,15 +4,15 @@
     <title>locstreamS</title>
 </head>
 <body>
-    <div id="container"></div>
+    <div id="container">
+    </div>
     <pre id="info"></pre>
     <pre id="incomming"></pre>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
     <script src="Three.js"></script>
     <script src="v1z.js"></script>
     <script>
-        var myName = 'player' + Math.floor(Math.random()*1000);
+        var myName = 'player' + Math.floor(Math.random() * 1000);
         var Key = {
             _pressed: {},
 
@@ -48,155 +48,117 @@
         var windowHalfX = 200;
         var windowHalfY = 200;
 
-    var gr1dSpaceScene1 = new V1Z.Gr1dScene(
-        container, // where to render to
-        400, // height - can't automatically detect from the div yet...
-        400, // width - can't automatically detect from the div yet...
-        0,   // the central node's stack 
-        0,   // the central node's column
-        0,   // the central node's row
-        true // auto animate       
+        var gr1dSpaceScene1 = new V1Z.Gr1dScene(
+            container, // where to render to
+            400, // height - can't automatically detect from the div yet...
+            400, // width - can't automatically detect from the div yet...
+            0,   // the central node's stack 
+            0,   // the central node's column
+            0,   // the central node's row
+            true // auto animate       
         );
 
-    var isUserInteracting = false,
+        var isUserInteracting = false,
             lon = 0, onMouseDownLon = 0,
             lat = 0, onMouseDownLat = 0,
             phi = 0, theta = 0;
 
 
-    gr1dSpaceScene1.addNode(0, 0, 0);
+        gr1dSpaceScene1.addNode(0, 0, 0);
 
-    projector = new THREE.Projector();
-    document.addEventListener('keyup', function (event) { Key.onKeyup(event); }, false);
-    document.addEventListener('keydown', function (event) { Key.onKeydown(event); }, false);
+        projector = new THREE.Projector();
+        document.addEventListener('keyup', function (event) { Key.onKeyup(event); }, false);
+        document.addEventListener('keydown', function (event) { Key.onKeydown(event); }, false);
 
-                document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-                document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-                document.addEventListener( 'mouseup', onDocumentMouseUp, false );
-                document.addEventListener( 'mousewheel', onDocumentMouseWheel, false );
-                document.addEventListener( 'DOMMouseScroll', onDocumentMouseWheel, false);
- 
-            
- 
-            function onDocumentMouseDown( event ) {
- 
-                event.preventDefault();
- 
-                isUserInteracting = true;
- 
-                onPointerDownPointerX = event.clientX;
-                onPointerDownPointerY = event.clientY;
- 
-                onPointerDownLon = lon;
-                onPointerDownLat = lat;
- 
+        document.addEventListener('mousedown', onDocumentMouseDown, false);
+        document.addEventListener('mousemove', onDocumentMouseMove, false);
+        document.addEventListener('mouseup', onDocumentMouseUp, false);
+
+
+
+        function onDocumentMouseDown(event) {
+            event.preventDefault();
+            isUserInteracting = true;
+            onPointerDownPointerX = event.clientX;
+            onPointerDownPointerY = event.clientY;
+            onPointerDownLon = lon;
+            onPointerDownLat = lat;
+        }
+
+        function onDocumentMouseMove(event) {
+            if (isUserInteracting) {
+                lon = (onPointerDownPointerX - event.clientX) * 0.3 + onPointerDownLon;
+                lat = (event.clientY - onPointerDownPointerY) * 0.3 + onPointerDownLat;
             }
- 
-            function onDocumentMouseMove( event ) {
- 
-                if ( isUserInteracting ) {
- 
-                    lon = ( onPointerDownPointerX - event.clientX ) * 0.3 + onPointerDownLon;
-                    lat = ( event.clientY - onPointerDownPointerY ) * 0.3 + onPointerDownLat;
- 
-                }
-            }
- 
-            function onDocumentMouseUp( event ) {
- 
-                isUserInteracting = false;
- 
-            }
- 
-            function onDocumentMouseWheel( event ) {
- 
-                // WebKit
- 
-                if ( event.wheelDeltaY ) {
- 
-                    fov -= event.wheelDeltaY * 0.05;
- 
-                // Opera / Explorer 9
- 
-                } else if ( event.wheelDelta ) {
- 
-                    fov -= event.wheelDelta * 0.05;
- 
-                // Firefox
- 
-                } else if ( event.detail ) {
- 
-                    fov += event.detail * 1.0;
- 
-                }
- 
-                camera.projectionMatrix = THREE.Matrix4.makePerspective( fov, window.innerWidth / window.innerHeight, 1, 1100 );
-                render();
- 
-            }
- 
-    var target = new THREE.Vector3(12, 12, 12);
+        }
 
-    // now, render it at 25FPS:
-    setInterval(render, 1000 / 25);
-    function render() {
-        var camera = gr1dSpaceScene1.Camera;
-        //camera.position.x += (mouseX - camera.position.x) * .001;
-        //camera.position.y += (-mouseY - camera.position.y) * .001;
-        //gr1dSpaceScene1.moveToward(target);
+        function onDocumentMouseUp(event) {
+            isUserInteracting = false;
+        }
+
+
+        var target = new THREE.Vector3(12, 12, 12);
+
+        // now, render it at 25FPS:
+        setInterval(render, 1000 / 25);
+        function render() {
+            var camera = gr1dSpaceScene1.Camera;
+            //camera.position.x += (mouseX - camera.position.x) * .001;
+            //camera.position.y += (-mouseY - camera.position.y) * .001;
+            //gr1dSpaceScene1.moveToward(target);
 
 
 
-                lat = Math.max( - 85, Math.min( 85, lat ) );
-                phi = ( 90 - lat ) * Math.PI / 180;
-                theta = lon * Math.PI / 180;
- 
-                camera.target.position.x = 500 * Math.sin( phi ) * Math.cos( theta );
-                camera.target.position.y = 500 * Math.cos( phi );
-                camera.target.position.z = 500 * Math.sin( phi ) * Math.sin( theta );
+            lat = Math.max(-85, Math.min(85, lat));
+            phi = (90 - lat) * Math.PI / 180;
+            theta = lon * Math.PI / 180;
 
-                var x = 0;
-                var z = 0;
-                if (Key.isDown(Key.UP)) x += 1;
-                if (Key.isDown(Key.LEFT)) z -= 1;
-                if (Key.isDown(Key.DOWN)) x -= 1;
-                if (Key.isDown(Key.RIGHT)) z += 1;
+            camera.target.position.x = 500 * Math.sin(phi) * Math.cos(theta);
+            camera.target.position.y = 500 * Math.cos(phi);
+            camera.target.position.z = 500 * Math.sin(phi) * Math.sin(theta);
 
-                camera.position.x += x * Math.cos(theta) - z * Math.sin(theta);
-                camera.position.z += x * Math.sin(theta) + z * Math.cos(theta);
+            var x = 0;
+            var z = 0;
+            if (Key.isDown(Key.UP)) x += 1;
+            if (Key.isDown(Key.LEFT)) z -= 1;
+            if (Key.isDown(Key.DOWN)) x -= 1;
+            if (Key.isDown(Key.RIGHT)) z += 1;
 
-                gr1dSpaceScene1.render();
+            camera.position.x += x * Math.cos(theta) - z * Math.sin(theta);
+            camera.position.z += x * Math.sin(theta) + z * Math.cos(theta);
 
-                var info = document.getElementById('info');
-                info.innerHTML = 'Position: ' + camera.position.x + ',' + camera.position.y + ',' + camera.position.z;
-    }
+            gr1dSpaceScene1.render();
 
-//    function onDocumentMouseDown(event) {
-//        var camera = gr1dSpaceScene1.Camera;
-//        event.preventDefault();
-//        var vector = new THREE.Vector3((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
-//        projector.unprojectVector(vector, camera);
-//        var ray = new THREE.Ray(camera.position, vector.subSelf(camera.position).normalize());
-//        var intersects = ray.intersectScene(gr1dSpaceScene1.Scene);
-//        if (intersects.length > 0) {
-//            target = intersects[0].point.multiplyScalar(100);
-//        }
-//    }
+            var info = document.getElementById('info');
+            info.innerHTML = 'Position: ' + camera.position.x + ',' + camera.position.y + ',' + camera.position.z;
+        }
 
-//    function onDocumentMouseMove(event) {
-//        mouseX = (event.clientX - windowHalfX);
-//        mouseY = (event.clientY - windowHalfY);
-//    }
+        //    function onDocumentMouseDown(event) {
+        //        var camera = gr1dSpaceScene1.Camera;
+        //        event.preventDefault();
+        //        var vector = new THREE.Vector3((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
+        //        projector.unprojectVector(vector, camera);
+        //        var ray = new THREE.Ray(camera.position, vector.subSelf(camera.position).normalize());
+        //        var intersects = ray.intersectScene(gr1dSpaceScene1.Scene);
+        //        if (intersects.length > 0) {
+        //            target = intersects[0].point.multiplyScalar(100);
+        //        }
+        //    }
 
-    function onDocumentKeyDown(event) {
-        
-    }
+        //    function onDocumentMouseMove(event) {
+        //        mouseX = (event.clientX - windowHalfX);
+        //        mouseY = (event.clientY - windowHalfY);
+        //    }
 
-    var scene = gr1dSpaceScene1.Scene;
+        function onDocumentKeyDown(event) {
+
+        }
+
+        var scene = gr1dSpaceScene1.Scene;
 
 
 
-// zany websockets!
+        // zany websockets!
         var ws;
         var start = function () {
             var inc = document.getElementById('incomming');
@@ -212,7 +174,7 @@
 
                 // so, we now have a Gr1dScene, lets add nodes!
                 //alert("w00t " + myObject);
-                gr1dSpaceScene1.addObject(new V1Z.Player(gr1dSpaceScene1, myObject.name, myObject.x, myObject.y, myObject.z));
+                gr1dSpaceScene1.addPlayer(myObject.name, myObject.x, myObject.y, myObject.z);
             };
 
             // when the connection is established, this method is called
@@ -229,13 +191,13 @@
 
         var t;
         function timedCount() {
-            t = setTimeout("timedCount()", 200);
+            t = setTimeout("timedCount()", 500);
             var me = gr1dSpaceScene1.Camera.position;
             me.name = myName;
             ws.send(JSON.stringify(me));
         }
 
-        setTimeout("timedCount()", 200);
+        setTimeout("timedCount()", 2000);
     </script>
 </body>
 </html>
