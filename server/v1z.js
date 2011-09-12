@@ -26,8 +26,7 @@ var V1Z = function () {
             this.DomContainer = domContainer;
             this.DomContainer.innerHeight = height;
             this.DomContainer.innerWidth = width;
-            this.Camera = new THREE.Camera(70, height / width, 1, 50);
-            this.Camera.far = 20000;
+            this.Camera = new THREE.Camera(70, height / width, 1, 1000);
             //            this.Camera = new THREE.FirstPersonCamera({
 
             //                fov: 60, aspect: height / width, near: 1, far: 20000,
@@ -60,10 +59,10 @@ var V1Z = function () {
             }
 
             this.moveToward = function (target) {
-                this.Camera.target.x = target.x;
-                this.Camera.target.y = target.y;
-                this.Camera.target.z = target.z;
-                this.Camera.position = this.Camera.position.addSelf(target.subSelf(this.Camera.position).divideScalar(30));
+                this.Camera.target.position.x = target.x;
+                this.Camera.target.position.y = target.y;
+                this.Camera.target.position.z = target.z;
+                this.Camera.position = this.Camera.position.addSelf(target.subSelf(this.Camera.position).divideScalar(2));
             }
 
             this.initialise = function () {

@@ -36,13 +36,20 @@ namespace server {
                 socket.OnClose = () => {
                     Console.WriteLine("Close!");
                     allSockets.Remove(socket);
+                    User user;
+                    if (userMap.TryGetValue(socket, out user)) {
+                        var remove = new Remove() { name = user.Name };
+                        pendingCommands.TryAdd(new CommandPending(commandID, new User(), remove));
+                        commandMap.Add(commandID++, socket);
+                    }
                 };
                 socket.OnMessage = message => {
                     Console.WriteLine(message);
                     try {
                         var update = JsonConvert.DeserializeObject<Update>(message);
+                        userMap[socket] = new User() { Name = update.name };
+                        pendingCommands.TryAdd(new CommandPending(commandID, new User(), update));
                         commandMap.Add(commandID++, socket);
-                        pendingCommands.TryAdd(new CommandPending(0, new User(), update));
                     } catch (Exception ex) {
                         Console.WriteLine(ex);
                     }

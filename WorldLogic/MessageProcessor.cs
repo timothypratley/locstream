@@ -72,5 +72,9 @@ namespace WorldLogic {
         static object ProcessMessage(Commands.Update update) {
             return new SpatialEntity(update.name, "player", new Vector3D(update.x, update.y, update.z), Quaternion.Identity);
         }
+
+        static object ProcessMessage(Commands.Remove remove) {
+            return new Events.Remove() { name = remove.name };
+        }
     }
 }

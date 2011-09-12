@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Remove.cs" />
     <Compile Include="Update.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

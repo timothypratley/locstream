@@ -39,5 +39,9 @@ namespace WorldHistory {
         void Apply(SpatialEntity entity) {
             recordedWorld.Head = recordedWorld.Head.Add(entity);
         }
+
+        void Apply(Remove remove) {
+            recordedWorld.Head = recordedWorld.Head.Remove(remove.name);
+        }
     }
 }
