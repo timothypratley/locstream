@@ -70,7 +70,11 @@ namespace WorldLogic {
         }
 
         static object ProcessMessage(Commands.Update update) {
-            return new SpatialEntity(update.name, "player", new Vector3D(update.x, update.y, update.z), Quaternion.Identity);
+            return new SpatialEntity(
+                update.name,
+                "player",
+                new Vector3D(update.x, update.y, update.z),
+                new Quaternion(update.qx, update.qy, update.qz, update.qw));
         }
 
         static object ProcessMessage(Commands.Remove remove) {

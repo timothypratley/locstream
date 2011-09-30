@@ -79,7 +79,11 @@ namespace server {
         public static string Serialize(object message) {
             if (message is SpatialEntity) {
                 var se = (SpatialEntity)message;
-                message = new Events.Update() { name = se.Name, x = (float)se.Position.X, y = (float)se.Position.Y, z = (float)se.Position.Z };
+                message = new Events.Update() {
+                    name = se.Name,
+                    x = (float)se.Position.X, y = (float)se.Position.Y, z = (float)se.Position.Z,
+                    qx = (float)se.Rotation.X, qy = (float)se.Rotation.Y, qz = (float)se.Rotation.Z, qw=(float)se.Rotation.W
+                };
             }
             return JsonConvert.SerializeObject(message);
         }
