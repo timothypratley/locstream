@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ls.htm" />
+    <Content Include="v1z.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commands\Commands.csproj">

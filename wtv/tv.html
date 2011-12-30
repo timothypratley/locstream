@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset=utf-8>
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Street</title>
+    <style>
+        body {
+            font-family: Monospace;
+            background-color: #f0f0f0;
+            margin: 0px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <script src="js/Three.js"></script>
+    <script src="js/Detector.js"></script>
+    <script src="js/RequestAnimationFrame.js"></script>
+    <script src="js/Stats.js"></script>
+    <script src="js/sizetype.js"></script>
+    <script src="js/view.js"></script>
+    <script src="js/model.js"></script>
+    <script>
+        window.onload = function () {
+            if (!Detector.webgl) {
+                Detector.addGetWebGLMessage();
+                return;
+            }
+            world = v1z.model.create();
+            v = v1z.view.create(world);
+            v1z.view.rotate = false;
+            v.fullScreen();
+            v.animate();
+        }
+    </script>
+</body>
+</html>

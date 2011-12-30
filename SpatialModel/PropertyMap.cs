@@ -9,9 +9,6 @@ namespace SpatialModel
 {
     public class PropertyMap
     {
-        public readonly FSharpMap<PropertyEnum, object> Properties = MapModule.Empty<PropertyEnum, object>();
-
-
         public enum PropertyEnum
         {
             Id,
@@ -20,6 +17,9 @@ namespace SpatialModel
             Mesh,
             Speed
         }
+
+        public readonly FSharpMap<PropertyEnum, object> Properties
+            = MapModule.Empty<PropertyEnum, object>();
 
         public static readonly IDictionary<PropertyEnum, Type> PropertyTypes
             = MapModule.Empty<PropertyEnum, Type>()
